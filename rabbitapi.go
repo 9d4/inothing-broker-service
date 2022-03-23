@@ -1,5 +1,11 @@
 package main
 
+import (
+	"bytes"
+	"fmt"
+	"net/http"
+)
+
 // RabbitMQ Endpoints. How to read:
 //
 // ApiOverview		-->		/api/overview
@@ -309,3 +315,12 @@ const (
 	// ------------------------------------------------------
 
 )
+
+// Request Create new user to RabbitMQ API
+func ReqCreateNewUser(username string, password string) (*http.Response, error) {
+	bodyStr := fmt.Sprintf(`{"password_hash":"%s","tags":"management"}`, hashPasswordBase64(password))
+	body := bytes.NewBufferString(bodyStr)
+
+	res, err := Req("PUT", fmt.Sprintf(ApiUsersName, username), body)
+	return res, err
+}
