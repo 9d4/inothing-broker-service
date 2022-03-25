@@ -48,7 +48,6 @@ func (p *Password) Hash() []byte {
 
 func (p *Password) HashBase64() string {
 	hash := p.Hash()
-	fmt.Printf("% x", hash)
 	return base64.StdEncoding.EncodeToString(hash[:])
 }
 
