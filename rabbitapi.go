@@ -324,3 +324,15 @@ func ReqCreateNewUser(username string, password string) (*http.Response, error) 
 	res, err := Req("PUT", fmt.Sprintf(ApiUsersName, username), body)
 	return res, err
 }
+
+// TODO: func ReqCreateNewQueueInVhost(vhost string, queue string)
+func ReqCreateNewQueueInVhost(vhost string, queue string) (*http.Response, error) {
+	path := fmt.Sprintf(ApiQueuesVhostName, vhost, queue)
+	bodyStr := `{"auto_delete":false,"durable":true,"arguments":{},"node":"rabbit@smacmullen"}`
+	body := bytes.NewBuffer([]byte(bodyStr))
+
+	return Req("PUT", path, body)
+}
+
+// TODO: func ReqCreateNewQueue(queue string)
+// TODO: func ReqBindExchangeQueue()
