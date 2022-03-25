@@ -5,6 +5,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"math/rand"
+	"net/url"
 	"time"
 )
 
@@ -77,4 +78,11 @@ func hashPasswordBase64(password string) string {
 	}
 
 	return p.HashBase64()
+}
+
+// normalizing names such as vhosts, queues, exchanges, etc.
+// before put to request
+// traper@dev-id/air/humid -> traper@dev-id%2fair%2fhumid
+func normalizeNames(name string) string {
+	return url.QueryEscape(name)
 }
