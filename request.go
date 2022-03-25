@@ -39,11 +39,16 @@ func ResponseReadString(res *http.Response) string {
 }
 
 func getUrl(p string) string {
-	url, err := url.Parse(RABBITMQ_HOST)
+	u, err := url.Parse(RABBITMQ_HOST)
 	if err != nil {
 		return ""
 	}
 
-	url.Path = path.Join(url.Path, p)
-	return url.String()
+	u.Path = path.Join(u.Path, p)
+	final, err := url.PathUnescape(u.String())
+	if err != nil {
+		return RABBITMQ_HOST
+	}
+
+	return final
 }
