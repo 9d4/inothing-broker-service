@@ -8,7 +8,7 @@ import (
 
 // RabbitMQ Endpoints. How to read:
 //
-// ApiOverview		-->		/api/overview
+// ApiOverview		-->	/api/overview
 //
 // ApiCluster_name	--> 	/api/cluster-name
 //
@@ -325,7 +325,7 @@ func ReqCreateNewUser(username string, password string) (*http.Response, error) 
 	return res, err
 }
 
-// TODO: func ReqCreateNewQueueInVhost(vhost string, queue string)
+// Create queue in vhost
 func ReqCreateNewQueueInVhost(vhost string, queue string) (*http.Response, error) {
 	path := fmt.Sprintf(ApiQueuesVhostName, vhost, queue)
 	bodyStr := `{"auto_delete":false,"durable":true}`
@@ -334,5 +334,9 @@ func ReqCreateNewQueueInVhost(vhost string, queue string) (*http.Response, error
 	return Req("PUT", path, body)
 }
 
-// TODO: func ReqCreateNewQueue(queue string)
+// Create queue in default vhost
+func ReqCreateNewQueue(queue string) (*http.Response, error) {
+	return ReqCreateNewQueueInVhost(RABBITMQ_VHOST, queue)
+}
+
 // TODO: func ReqBindExchangeQueue()

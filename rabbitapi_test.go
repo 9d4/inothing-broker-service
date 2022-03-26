@@ -41,3 +41,18 @@ func TestReqCreateNewQueueInVhost(t *testing.T) {
 		t.Error("Should be 201, got:", res1.StatusCode)
 	}
 }
+
+func TestReqCreateNewQueue(t *testing.T) {
+	sha := sha256.New()
+	sha.Write([]byte(fmt.Sprint(time.Now().UTC().Unix())))
+	devId := fmt.Sprintf("%x", sha.Sum(nil))
+
+	topic := normalizeNames(fmt.Sprintf("traper@%s/air/temp", devId))
+
+	res, err := ReqCreateNewQueue(topic);
+	if  err == nil && res.StatusCode == 201 {
+		return
+	}
+
+	t.Error(err)
+}
