@@ -313,7 +313,6 @@ const (
 	ApiVhost_limitsVhostName = "/api/vhost-limits/%s/%s"
 
 	// ------------------------------------------------------
-
 )
 
 const AMQP_TOPIC_EXCHANGE = "amq.topic"
