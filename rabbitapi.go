@@ -316,6 +316,8 @@ const (
 
 )
 
+const AMQP_TOPIC_EXCHANGE = "amq.topic"
+
 // Request Create new user to RabbitMQ API
 func ReqCreateNewUser(username string, password string) (*http.Response, error) {
 	bodyStr := fmt.Sprintf(`{"password_hash":"%s","tags":"management"}`, hashPasswordBase64(password))
@@ -327,7 +329,7 @@ func ReqCreateNewUser(username string, password string) (*http.Response, error) 
 
 // Create queue in vhost
 func ReqCreateNewQueueInVhost(vhost string, queue string) (*http.Response, error) {
-	path := fmt.Sprintf(ApiQueuesVhostName, vhost, queue)
+	path := fmt.Sprintf(ApiQueuesVhostName, normalizeNames(vhost), normalizeNames(queue))
 	bodyStr := `{"auto_delete":false,"durable":true}`
 	body := bytes.NewBufferString(bodyStr)
 
@@ -339,4 +341,12 @@ func ReqCreateNewQueue(queue string) (*http.Response, error) {
 	return ReqCreateNewQueueInVhost(RABBITMQ_VHOST, queue)
 }
 
-// TODO: func ReqBindExchangeQueue()
+// Bind Exchange, Routing Key to Queue in default vhost
+func ReqBindExchangeQueue(exchange string, toQueue string, routingKey string) (*http.Response, error) {
+	// ApiBindingsVhostEExchangeQQueue
+	path := fmt.Sprintf(ApiBindingsVhostEExchangeQQueue, normalizeNames(RABBITMQ_VHOST), normalizeNames(exchange), normalizeNames(toQueue))
+	bodyStr := fmt.Sprintf(`{"routing_key":"%s"}`, toQueue)
+	body := bytes.NewBufferString(bodyStr)
+
+	return Req("POST", path, body)
+}

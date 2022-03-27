@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/sha256"
 	"fmt"
+	"log"
 	"testing"
 	"time"
 )
@@ -20,8 +21,8 @@ func TestReqCreateNewQueueInVhost(t *testing.T) {
 
 	// <username>@<dev-id>/air/temp
 	// <username>@<dev-id>/air/humid
-	topic0 := normalizeNames(fmt.Sprintf("traper@%s/air/temp", devId))
-	topic1 := normalizeNames(fmt.Sprintf("traper@%s/air/humid", devId))
+	topic0 := fmt.Sprintf("traper@%s/air/temp", devId)
+	topic1 := fmt.Sprintf("traper@%s/air/humid", devId)
 
 	res0, err := ReqCreateNewQueueInVhost(RABBITMQ_VHOST, topic0)
 	if err != nil {
@@ -47,12 +48,31 @@ func TestReqCreateNewQueue(t *testing.T) {
 	sha.Write([]byte(fmt.Sprint(time.Now().UTC().Unix())))
 	devId := fmt.Sprintf("%x", sha.Sum(nil))
 
-	topic := normalizeNames(fmt.Sprintf("traper@%s/air/temp", devId))
+	topic := fmt.Sprintf("traper@%s.air.temp", devId)
 
-	res, err := ReqCreateNewQueue(topic);
-	if  err == nil && res.StatusCode == 201 {
+	res, err := ReqCreateNewQueue(topic)
+	if err == nil && res.StatusCode == 201 {
 		return
 	}
 
 	t.Error(err)
+}
+
+func TestReqBindExchangeQueue(t *testing.T) {
+	queue := "traper@dev1.air.humid"
+
+	re1, err := ReqCreateNewQueue(queue)
+	if err != nil {
+		t.Error("An error occured but not this, instead:", err)
+	}
+	log.Println("QueueCreateStatus:", re1.StatusCode)
+	log.Println("QueueCreateStatus:", ResponseReadString(re1))
+
+	res, err := ReqBindExchangeQueue(AMQP_TOPIC_EXCHANGE, queue, queue)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	log.Println("status:", res.StatusCode)
+	log.Println(ResponseReadString(res))
 }

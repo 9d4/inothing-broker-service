@@ -22,3 +22,12 @@ func TestHashPasswordHelper(t *testing.T) {
 	hashPasswordString(pwd)
 	hashPasswordBase64(pwd)
 }
+
+func TestNormalizeNames(t *testing.T){
+	name0 := "traper@air/humid"
+	name0Want := "traper%40air%2Fhumid"
+
+	if res := normalizeNames(name0); res != name0Want {
+		t.Fatal("want:", name0Want, "got:", res)
+	}
+}
