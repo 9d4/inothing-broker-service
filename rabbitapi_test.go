@@ -76,3 +76,20 @@ func TestReqBindExchangeRoutingToQueue(t *testing.T) {
 	log.Println("status:", res.StatusCode)
 	log.Println(ResponseReadString(res))
 }
+
+func TestReqBindAmqRoutingQueue(t *testing.T) {
+	queue := "traper@dev1.air.humid"
+
+	_, err := ReqCreateNewQueue(queue)
+	if err != nil {
+		t.Error("An error occured but not this, instead:", err)
+	}
+
+	res, err := ReqBindAmqRoutingQueue(queue, queue)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	log.Println("status:", res.StatusCode)
+	log.Println(ResponseReadString(res))
+}

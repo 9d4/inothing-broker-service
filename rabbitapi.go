@@ -349,3 +349,10 @@ func ReqBindExchangeRoutingToQueue(exchange string, toQueue string, routingKey s
 
 	return Req("POST", path, body)
 }
+
+// Bind amq.topic Exchange from routing key to Queue
+// Same as #ReqBindExchangeRoutingToQueue, but automatically select
+// amq.topic exchange
+func ReqBindAmqRoutingQueue(toQueue string, routingKey string) (*http.Response, error) {
+	return ReqBindExchangeRoutingToQueue(AMQP_TOPIC_EXCHANGE, toQueue, routingKey)
+}
