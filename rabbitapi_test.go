@@ -58,7 +58,7 @@ func TestReqCreateNewQueue(t *testing.T) {
 	t.Error(err)
 }
 
-func TestReqBindExchangeQueue(t *testing.T) {
+func TestReqBindExchangeRoutingToQueue(t *testing.T) {
 	queue := "traper@dev1.air.humid"
 
 	re1, err := ReqCreateNewQueue(queue)
@@ -68,7 +68,7 @@ func TestReqBindExchangeQueue(t *testing.T) {
 	log.Println("QueueCreateStatus:", re1.StatusCode)
 	log.Println("QueueCreateStatus:", ResponseReadString(re1))
 
-	res, err := ReqBindExchangeQueue(AMQP_TOPIC_EXCHANGE, queue, queue)
+	res, err := ReqBindExchangeRoutingToQueue(AMQP_TOPIC_EXCHANGE, queue, queue)
 	if err != nil {
 		t.Fatal(err)
 	}

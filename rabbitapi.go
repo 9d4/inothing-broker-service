@@ -341,7 +341,7 @@ func ReqCreateNewQueue(queue string) (*http.Response, error) {
 }
 
 // Bind Exchange, Routing Key to Queue in default vhost
-func ReqBindExchangeQueue(exchange string, toQueue string, routingKey string) (*http.Response, error) {
+func ReqBindExchangeRoutingToQueue(exchange string, toQueue string, routingKey string) (*http.Response, error) {
 	// ApiBindingsVhostEExchangeQQueue
 	path := fmt.Sprintf(ApiBindingsVhostEExchangeQQueue, normalizeNames(RABBITMQ_VHOST), normalizeNames(exchange), normalizeNames(toQueue))
 	bodyStr := fmt.Sprintf(`{"routing_key":"%s"}`, toQueue)
