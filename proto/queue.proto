@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option go_package = "/pb";
+
+message CreateQueueRequest{
+  string deviceId = 1;
+  string username = 2;
+  string queue = 3;
+}
+
+message CreateQueueResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+service QueueService {
+  rpc NewQueue(CreateQueueRequest) returns (CreateQueueResponse); 
+}
