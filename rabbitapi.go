@@ -10,7 +10,7 @@ import (
 //
 // ApiOverview		-->	/api/overview
 //
-// ApiCluster_name	--> 	/api/cluster-name
+// ApiCluster_name	--> /api/cluster-name
 //
 // Take a look at ApiNodesName. It has "%s" in it.
 // It means we have to substitute the %s before using
