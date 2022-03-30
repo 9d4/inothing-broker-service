@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"io"
 	"net/http"
 )
 
@@ -324,6 +325,13 @@ func ReqCreateNewUser(username string, password string) (*http.Response, error) 
 
 	res, err := Req("PUT", fmt.Sprintf(ApiUsersName, username), body)
 	return res, err
+}
+
+// Change Topic Permission
+func ReqChmodTopic(vhost string, user string, body io.Reader) (*http.Response, error) {
+	path := fmt.Sprintf(ApiTopic_permissionsVhostUser, normalizeNames(vhost), normalizeNames(user))
+
+	return Req("PUT", path, body)
 }
 
 // Create queue in vhost

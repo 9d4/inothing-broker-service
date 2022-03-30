@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"crypto/sha256"
 	"fmt"
 	"log"
@@ -12,6 +13,23 @@ func TestCreateNewUser(t *testing.T) {
 	if _, err := ReqCreateNewUser("ampas", "ampas"); err != nil {
 		t.Fatal("error: ", err)
 	}
+}
+
+func TestReqChmodTopic(t *testing.T) {
+	_, err := ReqCreateNewUser("user0", "user0")
+	if err != nil {
+		t.Error("An error occured but not this, instead:", err)
+	}
+
+	bodyStr := fmt.Sprintf(`{"exchange":"%s", "read":"^user0@a1f2f3b40c1d.*", "write":"^user0@a1f2f3b40c1d.*"}`, AMQP_TOPIC_EXCHANGE)
+	body := bytes.NewBufferString(bodyStr)
+
+	res, err := ReqChmodTopic(RABBITMQ_VHOST, "user0", body)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	log.Println("Status:", res.StatusCode)
 }
 
 func TestReqCreateNewQueueInVhost(t *testing.T) {
