@@ -327,6 +327,13 @@ func ReqCreateNewUser(username string, password string) (*http.Response, error) 
 	return res, err
 }
 
+// Change vhost permission
+func ReqChmodVhost(vhost string, user string, body io.Reader) (*http.Response, error) {
+	path := fmt.Sprintf(ApiPermissionsVhostUser, normalizeNames(vhost), normalizeNames(user))
+
+	return Req("PUT", path, body)
+}
+
 // Change Topic Permission
 func ReqChmodTopic(vhost string, user string, body io.Reader) (*http.Response, error) {
 	path := fmt.Sprintf(ApiTopic_permissionsVhostUser, normalizeNames(vhost), normalizeNames(user))

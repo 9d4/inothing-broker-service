@@ -15,7 +15,7 @@ func TestCreateNewUser(t *testing.T) {
 	}
 }
 
-func TestReqChmodTopic(t *testing.T) {
+func TestReqChmodVhostAndTopic(t *testing.T) {
 	_, err := ReqCreateNewUser("user0", "user0")
 	if err != nil {
 		t.Error("An error occured but not this, instead:", err)
@@ -29,7 +29,16 @@ func TestReqChmodTopic(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	log.Println("Status:", res.StatusCode)
+	log.Println("Chmod Topic:", res.StatusCode)
+
+	vhostMod := bytes.NewBufferString(`{"configure":".*","read":".*","write":".*"}`)
+
+	res1, err := ReqChmodVhost(RABBITMQ_VHOST, "user0", vhostMod)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	log.Println("Chmod Vhost:", res1.StatusCode)
 }
 
 func TestReqCreateNewQueueInVhost(t *testing.T) {
