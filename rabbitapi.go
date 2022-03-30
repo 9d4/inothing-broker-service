@@ -344,7 +344,7 @@ func ReqCreateNewQueue(queue string) (*http.Response, error) {
 func ReqBindExchangeRoutingToQueue(exchange string, toQueue string, routingKey string) (*http.Response, error) {
 	// ApiBindingsVhostEExchangeQQueue
 	path := fmt.Sprintf(ApiBindingsVhostEExchangeQQueue, normalizeNames(RABBITMQ_VHOST), normalizeNames(exchange), normalizeNames(toQueue))
-	bodyStr := fmt.Sprintf(`{"routing_key":"%s"}`, toQueue)
+	bodyStr := fmt.Sprintf(`{"routing_key":"%s"}`, routingKey)
 	body := bytes.NewBufferString(bodyStr)
 
 	return Req("POST", path, body)
