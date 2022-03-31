@@ -318,6 +318,20 @@ const (
 
 const AMQP_TOPIC_EXCHANGE = "amq.topic"
 
+// {"configure":".*","write":".*","read":".*"}
+type VhostMod struct {
+	Configure string `json:"configure"`
+	Write     string `json:"write"`
+	Read      string `json:"read"`
+}
+
+// {"exchange":"amq.topic","write":"^a","read":".*"}
+type TopicMod struct {
+	Exchange string `json:"exchange"`
+	Write    string `json:"write"`
+	Read     string `json:"read"`
+}
+
 // Request Create new user to RabbitMQ API
 func ReqCreateNewUser(username string, password string) (*http.Response, error) {
 	bodyStr := fmt.Sprintf(`{"password_hash":"%s","tags":"management"}`, hashPasswordBase64(password))
