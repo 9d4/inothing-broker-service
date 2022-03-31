@@ -1,6 +1,10 @@
 syntax = "proto3";
 
-option go_package = "/pb";
+option go_package = "/queuepb";
+
+service QueueService {
+  rpc NewQueue(CreateQueueRequest) returns (CreateQueueResponse); 
+}
 
 message CreateQueueRequest{
   string deviceId = 1;
@@ -11,8 +15,4 @@ message CreateQueueRequest{
 message CreateQueueResponse {
   bool success = 1;
   string message = 2;
-}
-
-service QueueService {
-  rpc NewQueue(CreateQueueRequest) returns (CreateQueueResponse); 
 }
