@@ -23,3 +23,7 @@ func init() {
 func main() {
 
 }
+
+func CreateNewUser(username string) {
+
+}

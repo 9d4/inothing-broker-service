@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"crypto/sha256"
+	"encoding/json"
 	"fmt"
 	"log"
 	"testing"
@@ -13,6 +14,38 @@ func TestCreateNewUser(t *testing.T) {
 	if _, err := ReqCreateNewUser("ampas", "ampas"); err != nil {
 		t.Fatal("error: ", err)
 	}
+}
+
+func TestReqModVhost(t *testing.T) {
+	path := fmt.Sprintf(ApiPermissionsVhostUser, normalizeNames(RABBITMQ_VHOST), "user0")
+	res, err := Req("GET", path, nil)
+	if err != nil {
+		t.Error(err)
+	}
+
+	resStr := ResponseReadString(res)
+	mod := VhostMod{}
+
+	json.Unmarshal([]byte(resStr), &mod)
+	fmt.Printf("%+v\n", mod)
+	fmt.Println(res.StatusCode)
+	fmt.Println(resStr)
+}
+
+func TestReqModTopic(t *testing.T) {
+	path := fmt.Sprintf(ApiTopic_permissionsVhostUser, normalizeNames(RABBITMQ_VHOST), "user0")
+	res, err := Req("GET", path, nil)
+	if err != nil {
+		t.Error(err)
+	}
+
+	resStr := ResponseReadString(res)
+	mod := []TopicMod{}
+
+	json.Unmarshal([]byte(resStr), &mod)
+	fmt.Printf("%+v\n", mod)
+	fmt.Println(res.StatusCode)
+	fmt.Println(resStr)
 }
 
 func TestReqChmodVhostAndTopic(t *testing.T) {
