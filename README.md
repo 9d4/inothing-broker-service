@@ -27,3 +27,4 @@ Notes and contribution convention.
 ### Notes
 
 - Always use `.` as separator when creating queue that will be used from mqtt. Since it will be processed automatically by RabbitMQ.
+- Because no device will be the same, the queue name simply looks like `a12b3c.topic0.topic00`.
