@@ -11,7 +11,7 @@ import (
 )
 
 func TestCreateNewUser(t *testing.T) {
-	if _, err := ReqCreateNewUser("ampas", "ampas"); err != nil {
+	if _, err := ReqCreateNewUser("user0", "user0"); err != nil {
 		t.Fatal("error: ", err)
 	}
 }
@@ -81,8 +81,8 @@ func TestReqCreateNewQueueInVhost(t *testing.T) {
 
 	// <username>@<dev-id>/air/temp
 	// <username>@<dev-id>/air/humid
-	topic0 := fmt.Sprintf("traper@%s/air/temp", devId)
-	topic1 := fmt.Sprintf("traper@%s/air/humid", devId)
+	topic0 := fmt.Sprintf("user0@%s/air/temp", devId)
+	topic1 := fmt.Sprintf("user0@%s/air/humid", devId)
 
 	res0, err := ReqCreateNewQueueInVhost(RABBITMQ_VHOST, topic0)
 	if err != nil {
@@ -108,7 +108,7 @@ func TestReqCreateNewQueue(t *testing.T) {
 	sha.Write([]byte(fmt.Sprint(time.Now().UTC().Unix())))
 	devId := fmt.Sprintf("%x", sha.Sum(nil))
 
-	topic := fmt.Sprintf("traper@%s.air.temp", devId)
+	topic := fmt.Sprintf("user0@%s.air.temp", devId)
 
 	res, err := ReqCreateNewQueue(topic)
 	if err == nil && res.StatusCode == 201 {
@@ -119,7 +119,7 @@ func TestReqCreateNewQueue(t *testing.T) {
 }
 
 func TestReqBindExchangeRoutingToQueue(t *testing.T) {
-	queue := "traper@dev1.air.humid"
+	queue := "user0@dev1.air.humid"
 
 	re1, err := ReqCreateNewQueue(queue)
 	if err != nil {
@@ -138,7 +138,7 @@ func TestReqBindExchangeRoutingToQueue(t *testing.T) {
 }
 
 func TestReqBindAmqRoutingQueue(t *testing.T) {
-	queue := "traper@dev1.air.humid"
+	queue := "user0@dev1.air.humid"
 
 	_, err := ReqCreateNewQueue(queue)
 	if err != nil {
