@@ -34,12 +34,12 @@ func init() {
 }
 
 func main() {
-	mqttClient = runMqttClient()
+	mqttClient = startMqttClient()
 
 	select {}
 }
 
-func runMqttClient() (client mqtt.Client) {
+func startMqttClient() (client mqtt.Client) {
 	opts := mqtt.NewClientOptions()
 	opts.AddBroker(MQTT_SERVER)
 	opts.SetClientID(MQTT_CLIENT_ID)
