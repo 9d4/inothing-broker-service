@@ -5,7 +5,6 @@ import (
 	"net"
 	"os"
 
-	interngrpc "github.com/9d4/inothing-broker-service/grpc"
 	"github.com/9d4/inothing-broker-service/pb/userpb"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	_ "github.com/joho/godotenv/autoload"
@@ -56,8 +55,8 @@ func startGrpcServer() (net.Listener, *grpc.Server) {
 	}
 	server := grpc.NewServer()
 	reflection.Register(server)
-	
-	userpb.RegisterUserServiceServer(server, &interngrpc.GrpcServer{})
+
+	userpb.RegisterUserServiceServer(server, &GrpcServer{})
 
 	go func() {
 	restart:
