@@ -85,7 +85,3 @@ func startMqttClient() (client mqtt.Client) {
 	log.Println(MQTT, "Connected!")
 	return
 }
-
-func CreateNewUser(username string) {
-
-}
