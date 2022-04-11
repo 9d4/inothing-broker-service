@@ -41,10 +41,9 @@ func init() {
 }
 
 func main() {
-	grpcListener, grpcServer := startGrpcServer()
+	grpcListener, grpcServer = startGrpcServer()
 	mqttClient = startMqttClient()
 
-	_, _ = grpcListener, grpcServer
 	select {}
 }
 
@@ -61,7 +60,7 @@ func startGrpcServer() (net.Listener, *grpc.Server) {
 	go func() {
 	restart:
 		if err = server.Serve(listener); err != nil {
-			log.Fatal("Can't serve grpc server. reason:", err)
+			log.Println(GRPC, "Can't serve grpc server. reason:", err)
 			goto restart
 		}
 	}()
@@ -80,7 +79,7 @@ func startMqttClient() (client mqtt.Client) {
 
 	client = mqtt.NewClient(opts)
 	if token := client.Connect(); token.Wait() && token.Error() != nil {
-		log.Fatal(token.Error())
+		log.Fatal(MQTT, "Can't connect. reason:", token.Error())
 	}
 
 	log.Println(MQTT, "Connected!")
